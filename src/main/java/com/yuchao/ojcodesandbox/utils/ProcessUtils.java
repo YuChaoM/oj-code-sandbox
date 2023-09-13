@@ -1,10 +1,13 @@
 package com.yuchao.ojcodesandbox.utils;
 
 import com.yuchao.ojcodesandbox.model.ExecuteMessage;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.StopWatch;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author 蒙宇潮
@@ -29,33 +32,33 @@ public class ProcessUtils {
             executeMessage.setExitValue(exitValue);
             if (exitValue == 0) {
                 System.out.println(opName + "成功");
-                // 获取正常的输出信息
+                // 获取正常输出信息
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
-                StringBuilder stringBuilder = new StringBuilder();
+                List<String> outputList = new ArrayList<>();
                 String compileOutputLine;
                 while ((compileOutputLine = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(compileOutputLine);
+                    outputList.add(compileOutputLine);
                 }
-                executeMessage.setMessage(stringBuilder.toString());
+                executeMessage.setMessage(StringUtils.join(outputList, "\n"));
             } else {
                 // 异常退出
                 System.out.println(opName + "失败，错误码：" + exitValue);
-                // 获取正常的输出信息
+                // 获取正常输出信息
                 BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(runProcess.getInputStream()));
-                StringBuilder stringBuilder = new StringBuilder();
+                List<String> outputList = new ArrayList<>();
                 String compileOutputLine;
                 while ((compileOutputLine = bufferedReader.readLine()) != null) {
-                    stringBuilder.append(compileOutputLine);
+                    outputList.add(compileOutputLine);
                 }
-                executeMessage.setMessage(stringBuilder.toString());
+                executeMessage.setMessage(StringUtils.join(outputList, "\n"));
                 // 获取错误的输出信息
                 BufferedReader errorBufferedReader = new BufferedReader(new InputStreamReader(runProcess.getErrorStream()));
-                StringBuilder errorStringBuilder = new StringBuilder();
+                List<String> errorOutputList = new ArrayList<>();
                 String errorCompileOutputLine;
                 while ((errorCompileOutputLine = errorBufferedReader.readLine()) != null) {
-                    errorStringBuilder.append(errorCompileOutputLine);
+                    errorOutputList.add(errorCompileOutputLine);
                 }
-                executeMessage.setErrorMessage(errorStringBuilder.toString());
+                executeMessage.setErrorMessage(StringUtils.join(errorOutputList, "\n"));
             }
             stopWatch.stop();
             executeMessage.setTime(stopWatch.getLastTaskTimeMillis());

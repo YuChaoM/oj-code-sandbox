@@ -21,7 +21,7 @@ import java.util.UUID;
  * @author 蒙宇潮
  * @create 2023-09-11  10:13
  */
-public class JavaNativeCodeSandbox implements com.yuchao.ojcodesandbox.CodeSandBox {
+public class JavaNativeCodeSandbox implements CodeSandBox {
 
     public static final String GLOBAL_JAVA_CODE_NAME = "tmpCode";
     private static final String GLOBAL_JAVA_CLASS_NAME = "Main.java";
