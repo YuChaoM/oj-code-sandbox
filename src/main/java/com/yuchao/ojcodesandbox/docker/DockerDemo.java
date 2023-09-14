@@ -66,7 +66,7 @@ public class DockerDemo {
                 .exec(logContainerResultCallback)
                 .awaitCompletion();
 
-        // 删除容器
+         // 删除容器
         dockerClient.removeContainerCmd(containerId).withForce(true).exec();
 
         // 删除镜像
